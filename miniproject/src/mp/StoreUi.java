@@ -1,9 +1,10 @@
 package mp;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-
+import mp.vo.BuyDto;
 import mp.vo.ProductDto;
 import mp.vo.StoreDto;
 
@@ -32,10 +33,37 @@ public class StoreUi {
 		System.out.print("메뉴 선택 : ");
 		int menu=Integer.parseInt(sc.nextLine());
 		if(menu==1) liststock_store(); //재고조회
-//		else if(menu==2) order_store(); //구매하기
+		else if(menu==2) order_store(); //구매하기
 //		else if(menu==3) listproduct_store(); //구매내역조회
 //		else if(menu==4) updatestock_store(); //발주
 		else if(menu==5) System.exit(0); //VM종료
+	}
+
+	private void order_store() {
+		System.out.println("[결제 시작]");
+		System.out.print("구매할 물품의 종류 수를 입력하세요 >> ");
+		int k=Integer.parseInt(sc.nextLine());
+		System.out.print("결제 방식을 입력하세요 >> (현금 / 카드)");
+		String paytype=sc.nextLine();
+		List<BuyDto> list=new ArrayList<BuyDto>();
+		for (int i = 0; i < k; i++) {			
+			System.out.print("구매할 물품의 id를 입력하세요 >> ");
+			int id=Integer.parseInt(sc.nextLine());
+			System.out.print(id+"물품의 수량을 입력하세요 >> ");
+			int quentity=Integer.parseInt(sc.nextLine());
+			BuyDto dto=new BuyDto(0,0,id,0,quentity,0);
+			list.add(dto);
+		}
+			try {
+				stSvc.orderproduct(list,paytype);
+				System.out.println("결제 되었습니다.");
+			} catch (StoreException e) {
+				
+			} catch (ShortfallException e) {
+				
+			}
+		
+		
 	}
 
 	private void liststock_store() { //재고 조회하기
@@ -49,7 +77,7 @@ public class StoreUi {
 				+"원    "+ dto.getCount()+"개");
 			}
 		} catch (StoreException e) {
-			System.out.println("*** Store에 오류가 발생했습니다 ***");
+			System.out.println("*** 시스템에 오류가 발생했습니다 ***");
 		}
 	}
 }
