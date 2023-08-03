@@ -1,57 +1,86 @@
-package mp;
+package day_0803.dao;
 
-import java.sql.SQLException;
 import java.util.List;
-
-import mp.dao.StoreDao;
-import mp.dao.StoreDaoImpl;
-import mp.vo.BuyDto;
-import mp.vo.PayDto;
-import mp.vo.ProductDto;
 
 public class StoreServiceImpl implements StoreService {
 
-	private StoreDao storeDao=new StoreDaoImpl();
-	
 	@Override
-	public List<ProductDto> productlist() throws StoreException {
-		List<ProductDto> list=null;
-		
-			try {
-				list = storeDao.productlist();
-			} catch (SQLException e) {
-				throw new StoreException(e.getMessage());
-			}
-		
-		return list;
+	public List<PayDto> plist() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	public List<BuyDto> blist() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	public List<BuyDto> Buy_list() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	public List<PayDto> Pay_list() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	public List<StockDto> Stock_list() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
-	public boolean orderproduct(List<BuyDto> list,String paytype) throws StoreException, ShortfallException {
-		try {
-			storeDao.addpay(paytype);
-			int pay_id=storeDao.lastpay();
-			int totalprice=0;
-			for (BuyDto dto : list) {
-				ProductDto prodDto=storeDao.findByNo(dto.getProduct_id());
-				if(prodDto==null) 
-						throw new ShortfallException();
-				BuyDto bdto=new BuyDto(0, pay_id, dto.getProduct_id(), prodDto.getProduct_price(), dto.getBuy_quentity(), 0);
-				totalprice+=storeDao.addbuy(bdto);
-				storeDao.updatestock(bdto);
-			}
-			
-			PayDto pay_dto=new PayDto(pay_id,null, null, null, totalprice);
-			storeDao.updatepay(pay_dto);
-		} catch (SQLException e) {
-			throw new StoreException(e.getMessage());
-		}
-		
+	public PayDto pread(String no) throws RecordNotFoundException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	public BuyDto bread(String no) throws RecordNotFoundException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean update(PayDto dto) throws RecordNotFoundException {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	public boolean Stock_update(String id, int qUAN) throws RecordNotFoundException {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	public void StockOrder_update(StockOrderDto m) throws RecordNotFoundException {
+		// TODO Auto-generated method stub
+		return ;
+	}
+	public boolean update(BuyDto dto) throws RecordNotFoundException {
+		// TODO Auto-generated method stub
 		return false;
 	}
 
+	@Override
+	public boolean delete(int no) throws RecordNotFoundException {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	public void StockOrder_delete(int id) throws RecordNotFoundException {
+		// TODO Auto-generated method stub
+		return ;
+	}
+
+	@Override
+	public int count() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+	public int StockOrder_count() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 	
-
-
-
+	@Override
+	public boolean add(PayDto dto) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	public boolean StockOrder_add(String id, int quan) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }
